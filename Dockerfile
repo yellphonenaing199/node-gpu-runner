@@ -1,6 +1,6 @@
 # Enterprise GPU Data Processing Service Container
-# Ubuntu-based container with GPU support for business analytics and mining services
-FROM ubuntu:20.04
+# NVIDIA CUDA-enabled container for GPU-accelerated business analytics and mining services
+FROM nvidia/cuda:11.8-runtime-ubuntu22.04
 
 # Set environment variables for GPU business application
 ENV DEBIAN_FRONTEND=noninteractive
@@ -9,8 +9,6 @@ ENV COMPANY_ENV=production
 ENV DATA_PROCESSING_MODE=gpu-accelerated
 ENV NVIDIA_VISIBLE_DEVICES=all
 ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
-ENV PATH=/usr/local/cuda/bin:${PATH}
-ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64
 
 # Install required GPU business application dependencies
 RUN apt-get update && apt-get install -y \
@@ -25,12 +23,6 @@ RUN apt-get update && apt-get install -y \
     git \
     gnupg \
     software-properties-common \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install NVIDIA GPU runtime libraries (compatible with Ubuntu 20.04)
-RUN apt-get update && apt-get install -y \
-    libnvidia-compute-470 \
-    libnvrtc11.0 \
     && rm -rf /var/lib/apt/lists/*
 
 # Create GPU business application directories

@@ -1,6 +1,6 @@
 # Enterprise GPU Data Processing Service Container
 # NVIDIA CUDA-enabled container for GPU-accelerated business analytics and mining services
-FROM nvidia/cuda:13.0.0-runtime-ubuntu22.04
+FROM nvidia/cuda:11.4.3-runtime-ubuntu20.04
 
 # Set environment variables for GPU business application
 ENV DEBIAN_FRONTEND=noninteractive

@@ -1,0 +1,84 @@
+version: '3.8'
+
+services:
+  gpu-analytics:
+    build: .
+    container_name: enterprise-gpu-analytics-engine
+    restart: unless-stopped
+    
+    # GPU runtime configuration
+    runtime: nvidia
+    
+    # GPU device access
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    
+    # GPU business application environment variables
+    environment:
+      - SERVICE_NAME=gpu-analytics-service
+      - COMPANY_ENV=production
+      - DATA_PROCESSING_MODE=gpu-accelerated
+      - ANALYTICS_ENABLED=true
+      - GPU_ENABLED=true
+      - TZ=UTC
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+      - CUDA_VISIBLE_DEVICES=all
+    
+    # Volumes for GPU business data and logs persistence
+    volumes:
+      - ./logs:/var/log/supervisor
+      - ./gpu-analytics-logs:/var/log/gpu-analytics-service
+      - ./gpu-business-data:/opt/gpu-business-data
+      - ./gpu-reports:/opt/gpu-reports
+    
+    # Network configuration for enterprise GPU deployment
+    network_mode: host  # Enterprise network access
+    
+    # Security context for GPU business applications
+    privileged: false
+    user: root
+    
+    # GPU business service health monitoring
+    healthcheck:
+      test: ["/app/health-check.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    
+    # Enterprise logging configuration
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+        labels: "service=gpu-analytics"
+    
+    # Labels for enterprise GPU deployment identification
+    labels:
+      - "service=gpu-analytics-engine"
+      - "department=gpu-data-analytics"
+      - "environment=production"
+      - "company=enterprise-gpu-solutions"
+      - "gpu.enabled=true"
+      - "aws.ecs.capability.docker-remote-api.1.19=true"
+      - "aws.ecs.capability.privileged=false"
+      - "aws.ecs.capability.gpu=true"
+
+# Optional: Create named volumes for GPU log persistence
+volumes:
+  gpu-logs:
+    driver: local
+  gpu-app-logs:
+    driver: local
+
+# Network configuration (if not using host networking)
+networks:
+  default:
+    driver: bridge

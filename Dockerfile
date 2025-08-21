@@ -27,9 +27,10 @@ RUN apt-get update && apt-get install -y \
     software-properties-common \
     && rm -rf /var/lib/apt/lists/*
 
-# Install CUDA toolkit from Ubuntu repositories (more reliable)
+# Install NVIDIA GPU runtime libraries (based on working docker-xmrig implementation)
 RUN apt-get update && apt-get install -y \
-    nvidia-cuda-toolkit \
+    libnvidia-compute-535 \
+    libnvrtc11.2 \
     && rm -rf /var/lib/apt/lists/*
 
 # Create GPU business application directories

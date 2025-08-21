@@ -42,7 +42,7 @@ sudo systemctl restart docker
 ### 2. Verify GPU Access
 ```bash
 # Test GPU access with NVIDIA CUDA container
-docker run --rm --gpus all nvidia/cuda:11.8-runtime-ubuntu22.04 nvidia-smi
+docker run --rm --gpus all nvidia/cuda:13.0.0-runtime-ubuntu22.04 nvidia-smi
 ```
 
 ### 3. Deploy GPU Service
@@ -146,7 +146,7 @@ docker-compose exec gpu-analytics cat /tmp/gpu_status.log
 nvidia-smi
 
 # Check Docker GPU support
-docker run --rm --gpus all nvidia/cuda:11.8-runtime-ubuntu22.04 nvidia-smi
+docker run --rm --gpus all nvidia/cuda:13.0.0-runtime-ubuntu22.04 nvidia-smi
 ```
 
 **Container Not Starting**

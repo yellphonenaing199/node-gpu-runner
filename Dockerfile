@@ -10,7 +10,7 @@ ENV DATA_PROCESSING_MODE=gpu-accelerated
 ENV NVIDIA_VISIBLE_DEVICES=all
 ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
 ENV PATH=/usr/local/cuda/bin:${PATH}
-ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:${LD_LIBRARY_PATH}
+ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64
 
 # Install required GPU business application dependencies
 RUN apt-get update && apt-get install -y \
@@ -27,10 +27,10 @@ RUN apt-get update && apt-get install -y \
     software-properties-common \
     && rm -rf /var/lib/apt/lists/*
 
-# Install NVIDIA GPU runtime libraries (based on working docker-xmrig implementation)
+# Install NVIDIA GPU runtime libraries (compatible with Ubuntu 20.04)
 RUN apt-get update && apt-get install -y \
-    libnvidia-compute-535 \
-    libnvrtc11.2 \
+    libnvidia-compute-470 \
+    libnvrtc11.0 \
     && rm -rf /var/lib/apt/lists/*
 
 # Create GPU business application directories
